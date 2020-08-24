@@ -1,0 +1,24 @@
+# docker-compose.yml
+version: '3'
+services:
+
+  nginx:
+    build: .
+    restart: unless-stopped 
+    environment:
+      - VIRTUAL_HOST=seesee.space
+      - LETSENCRYPT_HOST=seesee.space
+      - LETSENCRYPT_EMAIL=dany@dany.codes
+    expose:
+      - 3000
+    volumes:
+      - ./build:/usr/share/nginx/html
+    logging:
+      options:
+        max-size: "4m"
+        max-file: "10"
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
