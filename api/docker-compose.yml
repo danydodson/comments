@@ -1,0 +1,26 @@
+# docker-compose.yml
+version: '3'
+services:
+
+  node:
+    build: .
+    restart: unless-stopped
+    ports:
+      - 3001
+    environment:
+      - NODE_ENV=production
+      - VIRTUAL_HOST=seesee.space
+      - LETSENCRYPT_HOST=seesee.space
+      - LETSENCRYPT_EMAIL=dany@dany.codes
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    logging:
+      options:
+        max-size: "4m"
+        max-file: "10"
+        
+networks:
+  default:
+    external:
+      name: nginx-proxy
